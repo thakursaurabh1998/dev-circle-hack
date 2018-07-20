@@ -1,63 +1,43 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import StarIcon from '@material-ui/icons/Star';
-import SendIcon from '@material-ui/icons/Send';
-import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ReportIcon from '@material-ui/icons/Report';
+import React from "react";
+import { Link } from "react-router-dom";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import StarIcon from "@material-ui/icons/Star";
+import PeopleIcon from "@material-ui/icons/People";
+import HomeIcon from "@material-ui/icons/Home";
+import EmailIcon from "@material-ui/icons/Email"
 
 export const mailFolderListItems = (
   <div>
-    <ListItem button>
+    <ListItem component={Link} to="/" button>
       <ListItemIcon>
-        <InboxIcon />
+        <HomeIcon />
       </ListItemIcon>
-      <ListItemText primary="Inbox" />
+      <ListItemText primary="Homepage" />
     </ListItem>
-    <ListItem button>
+    <ListItem component={Link} to="/NGO" button>
       <ListItemIcon>
-        <StarIcon />
+        <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Starred" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SendIcon />
-      </ListItemIcon>
-      <ListItemText primary="Send mail" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DraftsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Drafts" />
+      <ListItemText primary="NGO" />
     </ListItem>
   </div>
 );
 
 export const otherMailFolderListItems = (
   <div>
-    <ListItem button>
+    <ListItem component={Link} to="/donate" button>
       <ListItemIcon>
-        <MailIcon />
+        <StarIcon />
       </ListItemIcon>
-      <ListItemText primary="All mail" />
+      <ListItemText primary="Donate" />
     </ListItem>
-    <ListItem button>
+    <ListItem component={Link} to="/contact" button>
       <ListItemIcon>
-        <DeleteIcon />
+        <EmailIcon />
       </ListItemIcon>
-      <ListItemText primary="Trash" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ReportIcon />
-      </ListItemIcon>
-      <ListItemText primary="Spam" />
+      <ListItemText primary="Contact Us" />
     </ListItem>
   </div>
 );

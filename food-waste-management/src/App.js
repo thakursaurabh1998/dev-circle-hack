@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Sidenav from "./Components/Sidenav";
 import { Route } from "react-router-dom";
 import "./App.css";
 import Homepage from "./Components/Homepage";
@@ -13,7 +12,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* <Sidenav /> */}
         <div
           style={{
             background: "#000000",
@@ -27,7 +25,7 @@ class App extends Component {
         <Route exact path="/donate" render={() => <Donate />} />
         <Route exact path="/about" render={() => <About />} />
         <Route exact path="/contact" render={() => <Contact />} />
-        <Route exact path="/ngo" render={() => <NGO />} />
+        <Route exact path="/ngo" render={() => <NGO />} />`
         <div
           style={{
             position: "fixed",

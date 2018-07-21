@@ -39,7 +39,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default
   },
   img: {
-    height: '60vh',
+    height: '70vh',
     maxWidth: '100vw',
     overflow: "hidden",
     width: "100vw"

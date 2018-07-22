@@ -7,6 +7,7 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import BottomNav from "./Components/BottomNav";
 import NGO from "./Components/NGO";
+import Grid from "@material-ui/core/Grid";
 
 class App extends Component {
   render() {
@@ -19,7 +20,12 @@ class App extends Component {
           }}
           className="header"
         >
-          Food For Everyone
+          <Grid container>
+            <Grid item xs={false} sm={2} />
+            <Grid item xs={12} sm={10}>
+              Food For Everyone
+            </Grid>
+          </Grid>
         </div>
         <Route exact path="/" render={() => <Homepage />} />
         <Route exact path="/donate" render={() => <Donate />} />

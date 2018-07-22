@@ -5,14 +5,12 @@
 .header {
   font-family: "Acme", sans-serif;
   font-size: 4em;
-  padding-left: 50px;
 }
 
 @media screen and (max-width: 600px) {
   .header {
     font-size: 3em;
     text-align: center;
-    padding-left: 0;
   }
 }
 

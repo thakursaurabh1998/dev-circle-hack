@@ -8,27 +8,14 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import NavigationIcon from "@material-ui/icons/Navigation";
-
-const currencies = [
-  {
-    value: "USD",
-    label: "$"
-  },
-  {
-    value: "EUR",
-    label: "€"
-  },
-  {
-    value: "BTC",
-    label: "฿"
-  },
-  {
-    value: "JPY",
-    label: "¥"
-  }
-];
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import { geocode } from "../utils/utils";
 
 const styles = theme => ({
   card: {
@@ -68,13 +55,37 @@ const styles = theme => ({
   }
 });
 
+const Transition = props => {
+  return <Slide direction="up" {...props} />;
+};
+
 class Donate extends Component {
   state = {
     name: "Cat in the Hat",
     age: "",
     multiline: "Controlled",
-    currency: "EUR",
+    open: false,
+    latitude: 1.11,
+    longitude: 2.23,
     loc: "Unknown"
+  };
+
+  askLocation = () => {
+    if ("geolocation" in navigator) {
+      const self = this;
+      navigator.geolocation.getCurrentPosition(function(position) {
+        geocode(position.coords.latitude, position.coords.longitude).then(
+          result => {
+            console.log(result.results[0].formatted_address);
+            self.setState({
+              loc: result.results[0].formatted_address
+            });
+          }
+        );
+      });
+    } else {
+      this.handleClickOpen();
+    }
   };
 
   handleChange = name => event => {
@@ -82,6 +93,15 @@ class Donate extends Component {
       [name]: event.target.value
     });
   };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -89,7 +109,16 @@ class Donate extends Component {
       <div className={classes.root}>
         <Grid container>
           <Grid item xs={1} sm={2} />
-          <Grid style={{ marginTop: "20px" }} item xs={11} sm={6}>
+          <Grid
+            style={{
+              marginLeft: "10px",
+              marginTop: "10px",
+              marginBottom: "10px"
+            }}
+            item
+            xs={11}
+            sm={6}
+          >
             <Typography
               variant="headline"
               style={{ fontSize: "2em" }}
@@ -101,108 +130,131 @@ class Donate extends Component {
           <Grid item xs={false} sm={3} />
           <Grid item xs={false} sm={2} />
           <Grid item xs={12} sm={8}>
-            <Card className={classes.card}>
+            <Card
+              style={{ marginLeft: "10px", marginRight: "10px" }}
+              className={classes.card}
+            >
               <CardContent>
                 <form
                   className={classes.container}
                   noValidate
                   autoComplete="off"
                 >
-                  <TextField
-                    id="name"
-                    label="Your/Organisation Name"
-                    className={classes.textField}
-                    // value={this.state.name}
-                    onChange={this.handleChange("name")}
-                    margin="normal"
-                  />
-                  <TextField
-                    id="uncontrolled"
-                    label="Uncontrolled"
-                    defaultValue="foo"
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                  <TextField
-                    required
-                    id="required"
-                    label="Required"
-                    defaultValue="Hello World"
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                  <TextField
-                    error
-                    id="error"
-                    label="Error"
-                    defaultValue="Hello World"
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                  <TextField
-                    id="password-input"
-                    label="Password"
-                    className={classes.textField}
-                    type="password"
-                    autoComplete="current-password"
-                    margin="normal"
-                  />
-                  <TextField
-                    id="read-only-input"
-                    label="Read Only"
-                    defaultValue="Hello World"
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
-                  <TextField
-                    id="helperText"
-                    label="Helper text"
-                    defaultValue="Default Value"
-                    className={classes.textField}
-                    helperText="Some important text"
-                    margin="normal"
-                  />
-                  <TextField
-                    id="full-width"
-                    label="Label"
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    placeholder="Placeholder"
-                    helperText="Full width!"
-                    fullWidth
-                    margin="normal"
-                  />
-                  <Button
-                    variant="extendedFab"
-                    aria-label="Location"
-                    className={classes.button}
-                  >
-                    <NavigationIcon className={classes.extendedIcon} />
-                    Current location
-                  </Button>
-                  <TextField
-                    id="read-only-input"
-                    label="Location"
-                    defaultValue={this.state.loc}
-                    className={classes.textField}
-                    margin="normal"
-                    InputProps={{
-                      readOnly: true
-                    }}
-                  />
+                  <Grid container>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        id="name"
+                        label="Your/Organisation Name"
+                        className={classes.textField}
+                        onChange={this.handleChange("name")}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={false} sm={8} />
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        id="contact"
+                        label="Contact number"
+                        className={classes.textField}
+                        onChange={this.handleChange("contact")}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        id="email"
+                        label="Email id"
+                        className={classes.textField}
+                        onChange={this.handleChange("email")}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={false} sm={4} />
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        id="address"
+                        label="Address"
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        fullWidth
+                        margin="normal"
+                        helperText="Enter full formatted address"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        id="read-only-input"
+                        label="Location"
+                        value={this.state.loc}
+                        margin="normal"
+                        InputProps={{
+                          readOnly: true
+                        }}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        helperText="Provide us your accurate location so we can reach you easily. Click the current location button."
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      style={{ textAlign: "center", marginTop: "20px" }}
+                    >
+                      <Button
+                        variant="contained"
+                        onClick={this.askLocation}
+                        color="default"
+                        className={classes.button}
+                      >
+                        <NavigationIcon
+                          color="primary"
+                          className={classes.rightIcon}
+                        />
+                        Current Location
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </form>
               </CardContent>
-              <CardActions>
-                <Button size="small">Learn More</Button>
+              <CardActions style={{ textAlign: "right", display: "block" }}>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  color="primary"
+                >
+                  Submit
+                </Button>
               </CardActions>
             </Card>
           </Grid>
           <Grid item xs={false} sm={2} />
         </Grid>
+        <Dialog
+          open={this.state.open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            {"Use Google's location service?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Your browser doesn't support geolocation feature. You can continue
+              by only entering the full formatted address.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

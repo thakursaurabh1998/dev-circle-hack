@@ -78,6 +78,8 @@ class Donate extends Component {
           result => {
             console.log(result.results[0].formatted_address);
             self.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
               loc: result.results[0].formatted_address
             });
           }

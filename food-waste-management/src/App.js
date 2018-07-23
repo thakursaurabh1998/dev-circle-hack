@@ -7,26 +7,13 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import BottomNav from "./Components/BottomNav";
 import NGO from "./Components/NGO";
-import Grid from "@material-ui/core/Grid";
+import Header from "./Components/Header";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <div
-          style={{
-            background: "#000000",
-            color: "#ffffff"
-          }}
-          className="header"
-        >
-          <Grid container>
-            <Grid item xs={false} sm={2} />
-            <Grid item xs={12} sm={10}>
-              Food For Everyone
-            </Grid>
-          </Grid>
-        </div>
+        <Header />
         <Route exact path="/" render={() => <Homepage />} />
         <Route exact path="/donate" render={() => <Donate />} />
         <Route exact path="/about" render={() => <About />} />

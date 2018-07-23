@@ -14,15 +14,3 @@ config = {
 firebase = pyrebase.initialize_app(config)
 
 db = firebase.database()
-
-data = {
-    "task": "Task 1"
-}
-
-# results = db.child('todos').child('hello').push(data)
-
-# results = db.child('todos').get()
-
-# db.child('todos').child('todo4').update({'task': 'changed'})
-
-# print(results.val())

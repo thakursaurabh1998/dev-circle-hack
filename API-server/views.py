@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 from flask_restful import Api, Resource, abort, reqparse
 from random import randint
 import json
@@ -7,8 +8,8 @@ from models import db
 
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
-
 
 
 # def abort_if_todo_doesnt_exist(todo_id):
@@ -21,6 +22,11 @@ parser.add_argument('task')
 
 
 class Donor(Resource):
+    def get(self):
+        donors = db.child('donors').get().val()
+        # data = [donors[i] for i in donors]
+        # print(data)
+        return donors,200
     def post(self):
         # args = parser.parse_args()
         if request.headers['Content-Type'] == 'application/json':

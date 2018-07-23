@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
-import Grid from "@material-ui/core/Grid";
 import fw1 from "../Img/fw1.jpg";
 import fw2 from "../Img/fw2.jpg";
 import fw3 from "../Img/fw3.jpg";
@@ -75,69 +74,63 @@ class SwipeableTextMobileStepper extends React.Component {
     const maxSteps = images.length;
 
     return (
-      <Grid container>
-        <Grid item xs={false} sm={2} />
-        <Grid item xs={12} sm={8}>
-          <div className={classes.root}>
-            <SwipeableViews
-              axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-              index={this.state.activeStep}
-              onChangeIndex={this.handleStepChange}
-              enableMouseEvents
-            >
-              {images.map(step => (
-                <img
-                  key={step.label}
-                  className={classes.img}
-                  src={step.imgPath}
-                  alt={step.label}
-                />
-              ))}
-            </SwipeableViews>
-            <MobileStepper
-              style={{
-                marginTop:"-58px",
-                position:"relative",
-                zIndex: "2000",
-                opacity: "0.7"
-              }}
-              steps={maxSteps}
-              position="static"
-              activeStep={activeStep}
-              className={classes.mobileStepper}
-              nextButton={
-                <Button
-                  size="small"
-                  onClick={this.handleNext}
-                  disabled={activeStep === maxSteps - 1}
-                >
-                  Next
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
-              }
-              backButton={
-                <Button
-                  size="small"
-                  onClick={this.handleBack}
-                  disabled={activeStep === 0}
-                >
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowRight />
-                  ) : (
-                    <KeyboardArrowLeft />
-                  )}
-                  Back
-                </Button>
-              }
+      <div className={classes.root}>
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={this.state.activeStep}
+          onChangeIndex={this.handleStepChange}
+          enableMouseEvents
+        >
+          {images.map(step => (
+            <img
+              key={step.label}
+              className={classes.img}
+              src={step.imgPath}
+              alt={step.label}
             />
-          </div>
-        </Grid>
-        <Grid item xs={false} sm={2} />
-      </Grid>
+          ))}
+        </SwipeableViews>
+        <MobileStepper
+          style={{
+            marginTop: "-58px",
+            position: "relative",
+            zIndex: "2000",
+            opacity: "0.7"
+          }}
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          className={classes.mobileStepper}
+          nextButton={
+            <Button
+              size="small"
+              onClick={this.handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={this.handleBack}
+              disabled={activeStep === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
+      </div>
     );
   }
 }

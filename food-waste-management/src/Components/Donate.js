@@ -1,16 +1,25 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
+import Slide from "@material-ui/core/Slide";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import NavigationIcon from "@material-ui/icons/Navigation";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import * as callsAPI from "../utils/utils";
-import Dialog from "./Dialog";
+import Dialog from "@material-ui/core/Dialog";
+
+const Transition = props => {
+  return <Slide direction="up" {...props} />;
+};
 
 const styles = theme => ({
   card: {
@@ -54,7 +63,8 @@ class Donate extends Component {
   state = {
     latitude: 1.11,
     longitude: 2.23,
-    loc: "Unknown"
+    loc: "Unknown",
+    open: false
   };
 
   askLocation = () => {
@@ -73,7 +83,9 @@ class Donate extends Component {
           });
       });
     } else {
-      this.handleClickOpen();
+      alert(
+        "Your browser doesn't support geolocation feature. You can continue by only entering the full formatted address."
+      );
     }
   };
 
@@ -93,11 +105,22 @@ class Donate extends Component {
       latitude: this.state.latitude,
       longitude: this.state.longitude
     };
-    // callsAPI.getDonors();
+    const date = new Date().getTime();
     callsAPI
-      .postDonors({ name, contact, email, address, location })
-      .then(result => console.log(result));
+      .postDonors({ name, contact, email, address, location, date })
+      .then(result => {
+        console.log(result);
+        this.handleClickOpen();
+      });
     for (let i = 0; i < e.target.length - 2; i++) e.target[i].value = "";
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   render() {
@@ -232,9 +255,27 @@ class Donate extends Component {
           </Grid>
           <Grid item xs={false} sm={2} />
         </Grid>
-        <Dialog title="Use Google's location service?">
-          Your browser doesn't support geolocation feature. You can continue by
-          only entering the full formatted address.
+        <Dialog
+          open={this.state.open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle id="alert-dialog-slide-title">
+            {"Confirm" || "Alert"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Your data is updated
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );

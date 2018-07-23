@@ -6,7 +6,6 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import StarIcon from "@material-ui/icons/Star";
 import PeopleIcon from "@material-ui/icons/People";
 import HomeIcon from "@material-ui/icons/Home";
-// import EmailIcon from "@material-ui/icons/Email";
 import { Link } from "react-router-dom";
 
 const styles = {

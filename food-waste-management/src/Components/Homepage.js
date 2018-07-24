@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Info from "./Info";
 import Grid from "@material-ui/core/Grid";
-import * as callsAPI from "../utils/utils";
+import * as utils from "../utils/utils";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,28 +18,56 @@ class Homepage extends Component {
   state = {
     feed: {},
     loading: true,
-    sortByDistance: true
+    sortByDistance: false,
+    lat: undefined,
+    lng: undefined
   };
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+    const { feed } = this.state;
+    const check = event.target.checked;
+    this.askLocation()
+      .then(({ lat, lng }) => {
+        this.setState({ [name]: check });
+        this.setState({ lat, lng });
+        const newFeed = utils.distanceProp(feed, { lat, lng });
+        this.setState({ feed: newFeed });
+        console.log(newFeed);
+      })
+      .catch(err => alert(err));
   };
 
   componentDidMount() {
-    callsAPI.getDonors().then(feed => this.setState({ feed, loading: false }));
+    // utils.getDonors().then(feed => this.setState({ feed, loading: false }));
+    this.setState({
+      feed: JSON.parse(
+        `[{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"08427650927","date":"2018-07-23T13:33:03.316Z","email":"thakursaurabh1998@gmail.com","id":0,"location":{"latitude":53,"longitude":100.7794179},"name":"door"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"12423894","date":1532353210582,"email":"thakursaurabh1998@gmail.com","id":1,"location":{"latitude":30.7333148,"longitude":6.7794179},"name":"pass"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"3243252345","date":1532360798276,"email":"thakursaurabh1998@hotmail.com","location":{"latitude":75.7333148,"longitude":31.7794179},"name":"item"}]`
+      ),
+      loading: false
+    });
   }
 
-  // sortDistance(){
-
-  // }
+  askLocation = () => {
+    return new Promise((resolve, reject) => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          resolve({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        });
+      } else {
+        resolve(
+          "Your browser doesn't support geolocation feature. You can continue by only entering the full formatted address."
+        );
+      }
+    });
+  };
 
   render() {
-    const { loading, feed, sortByDistance } = this.state;
+    const { loading, feed, sortByDistance, lat, lng } = this.state;
     const { classes } = this.props;
-    const index = Object.keys(feed);
-    if(sortByDistance){
-      
-    }
+    console.log(feed);
     return (
       <div style={{ textAlign: "center" }}>
         {loading ? (
@@ -64,8 +92,7 @@ class Homepage extends Component {
               />
             </div>
             <Grid container>
-              {index.map((ind, i) => {
-                const d = feed[ind];
+              {feed.sort((a, b) => b.distance - a.distance).map((d, i) => {
                 return (
                   <Grid key={i} item xs={12} sm={4}>
                     <Info

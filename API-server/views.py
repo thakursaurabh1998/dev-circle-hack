@@ -24,9 +24,9 @@ parser.add_argument('task')
 class Donor(Resource):
     def get(self):
         donors = db.child('donors').get().val()
-        # data = [donors[i] for i in donors]
+        data = [donors[i] for i in donors]
         # print(data)
-        return donors,200
+        return data,200
     def post(self):
         # args = parser.parse_args()
         if request.headers['Content-Type'] == 'application/json':

@@ -6,8 +6,8 @@ import Donate from "./Components/Donate";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
 import BottomNav from "./Components/BottomNav";
-import NGO from "./Components/NGO";
 import Header from "./Components/Header";
+import Register from "./Components/Register";
 
 class App extends Component {
   render() {
@@ -18,7 +18,7 @@ class App extends Component {
         <Route exact path="/donate" render={() => <Donate />} />
         <Route exact path="/about" render={() => <About />} />
         <Route exact path="/contact" render={() => <Contact />} />
-        <Route exact path="/ngo" render={() => <NGO />} />`
+        <Route exact path="/register" render={() => <Register />} />`
         <div
           style={{
             position: "fixed",

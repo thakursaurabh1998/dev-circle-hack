@@ -55,11 +55,11 @@ class SimpleBottomNavigation extends React.Component {
           to="/donate"
         />
         <BottomNavigationAction
-          label="NGO"
-          value="ngo"
+          label="Register"
+          value="register"
           icon={<PeopleIcon />}
           component={Link}
-          to="/ngo"
+          to="/register"
         />
       </BottomNavigation>
     );

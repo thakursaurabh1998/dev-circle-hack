@@ -167,6 +167,7 @@ class Donate extends Component {
                       <TextField
                         id="name"
                         label="Your/Organisation Name"
+                        defaultValue={this.props.name}
                         className={classes.textField}
                         onChange={this.handleChange("name")}
                         margin="normal"
@@ -186,6 +187,7 @@ class Donate extends Component {
                       <TextField
                         id="email"
                         label="Email id"
+                        defaultValue={this.props.email}
                         className={classes.textField}
                         onChange={this.handleChange("email")}
                         margin="normal"

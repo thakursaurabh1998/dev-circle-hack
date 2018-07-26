@@ -10,15 +10,36 @@ import Header from "./Components/Header";
 import Register from "./Components/Register";
 
 class App extends Component {
+  state = {};
+
+  addData = obj => {
+    this.setState(obj);
+    console.log(this.state);
+  };
+
   render() {
     return (
       <div>
         <Header />
         <Route exact path="/" render={() => <Homepage />} />
-        <Route exact path="/donate" render={() => <Donate />} />
+        <Route
+          exact
+          path="/donate"
+          render={() => (
+            <Donate
+              name={this.state.name}
+              email={this.state.email}
+              loggedIn={this.state.isLoggedIn}
+            />
+          )}
+        />
         <Route exact path="/about" render={() => <About />} />
         <Route exact path="/contact" render={() => <Contact />} />
-        <Route exact path="/register" render={() => <Register />} />`
+        <Route
+          exact
+          path="/register"
+          render={() => <Register addData={data => this.addData(data)} />}
+        />`
         <div
           style={{
             position: "fixed",

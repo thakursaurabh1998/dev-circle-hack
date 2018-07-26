@@ -1,19 +1,14 @@
 import React, { Component } from "react";
-import Facebook from './facebook'
+import Facebook from "./facebook";
 
 class Register extends Component {
+  addData = (obj) =>{
+    console.log(obj);
+    this.props.addData(obj);
+  }
+
   render() {
-    return ( <div>
-      <div
-        style = {
-          {
-            position: "fixed",
-            bottom: 100
-          }
-        } >
-        <Facebook />
-      </div>
-    </div>);
+    return <Facebook addData={(data)=>this.addData(data)}/>;
   }
 }
 

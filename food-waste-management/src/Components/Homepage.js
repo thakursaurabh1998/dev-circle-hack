@@ -26,25 +26,27 @@ class Homepage extends Component {
   handleChange = name => event => {
     const { feed } = this.state;
     const check = event.target.checked;
+    this.setState({ [name]: check });
     this.askLocation()
       .then(({ lat, lng }) => {
-        this.setState({ [name]: check });
         this.setState({ lat, lng });
         const newFeed = utils.distanceProp(feed, { lat, lng });
         this.setState({ feed: newFeed });
-        console.log(newFeed);
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        this.setState({ [name]: !check });
+        alert(err);
+      });
   };
 
   componentDidMount() {
-    // utils.getDonors().then(feed => this.setState({ feed, loading: false }));
-    this.setState({
-      feed: JSON.parse(
-        `[{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"08427650927","date":"2018-07-23T13:33:03.316Z","email":"thakursaurabh1998@gmail.com","id":0,"location":{"latitude":53,"longitude":100.7794179},"name":"door"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"12423894","date":1532353210582,"email":"thakursaurabh1998@gmail.com","id":1,"location":{"latitude":30.7333148,"longitude":6.7794179},"name":"pass"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"3243252345","date":1532360798276,"email":"thakursaurabh1998@hotmail.com","location":{"latitude":75.7333148,"longitude":31.7794179},"name":"item"}]`
-      ),
-      loading: false
-    });
+    utils.getDonors().then(feed => this.setState({ feed, loading: false }));
+    // this.setState({
+    //   feed: JSON.parse(
+    //     `[{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"08427650927","date":"2018-07-23T13:33:03.316Z","email":"thakursaurabh1998@gmail.com","id":0,"location":{"latitude":53,"longitude":100.7794179},"name":"Door"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"12423894","date":1532353210582,"email":"thakursaurabh1998@gmail.com","id":1,"location":{"latitude":30.7333148,"longitude":6.7794179},"name":"Pass"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"3243252345","date":1532360798276,"email":"thakursaurabh1998@hotmail.com","location":{"latitude":75.7333148,"longitude":31.7794179},"name":"Item"}]`
+    //   ),
+    //   loading: false
+    // });
   }
 
   askLocation = () => {
@@ -65,9 +67,8 @@ class Homepage extends Component {
   };
 
   render() {
-    const { loading, feed, sortByDistance, lat, lng } = this.state;
+    const { loading, feed } = this.state;
     const { classes } = this.props;
-    console.log(feed);
     return (
       <div style={{ textAlign: "center" }}>
         {loading ? (

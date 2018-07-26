@@ -1,5 +1,7 @@
 # Food For Everyone
 
+> Facebook DevCircle Community Challenge
+
 ## Inspiration
 Many people are not able to have their daily food intake due to lack of resources and money. Poor people living on the street are affected the most. So we thought of a way to help them. A lot of food is wasted in social functions or gatherings or because of improper sales.
 So a vendor or organizer can donate those items.

@@ -10,18 +10,30 @@ import Header from "./Components/Header";
 import Register from "./Components/Register";
 
 class App extends Component {
-  state = {};
+  state = {
+    wall: false
+  };
 
   addData = obj => {
     this.setState(obj);
     console.log(this.state);
   };
 
+  wallChange = () => {
+    this.setState({ wall: true });
+  };
+
   render() {
     return (
       <div>
         <Header />
-        <Route exact path="/" render={() => <Homepage />} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <Homepage wallChange={this.wallChange} wall={this.state.wall} />
+          )}
+        />
         <Route
           exact
           path="/donate"

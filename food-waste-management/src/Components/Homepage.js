@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
+import splash from "../Img/splash.jpg";
 
 const styles = theme => ({
   progress: {
@@ -20,7 +21,8 @@ class Homepage extends Component {
     loading: true,
     sortByDistance: false,
     lat: undefined,
-    lng: undefined
+    lng: undefined,
+    wall: this.props.wall
   };
 
   handleChange = name => event => {
@@ -41,12 +43,11 @@ class Homepage extends Component {
 
   componentDidMount() {
     utils.getDonors().then(feed => this.setState({ feed, loading: false }));
-    // this.setState({
-    //   feed: JSON.parse(
-    //     `[{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"08427650927","date":"2018-07-23T13:33:03.316Z","email":"thakursaurabh1998@gmail.com","id":0,"location":{"latitude":53,"longitude":100.7794179},"name":"Door"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"12423894","date":1532353210582,"email":"thakursaurabh1998@gmail.com","id":1,"location":{"latitude":30.7333148,"longitude":6.7794179},"name":"Pass"},{"address":"#393/6 Ground Floor Gali No 4 Adarsh Nagar, Mundi Kharar, Kharar","contact":"3243252345","date":1532360798276,"email":"thakursaurabh1998@hotmail.com","location":{"latitude":75.7333148,"longitude":31.7794179},"name":"Item"}]`
-    //   ),
-    //   loading: false
-    // });
+    const self = this;
+    setTimeout(() => {
+      self.props.wallChange();
+      this.setState({ wall: true });
+    }, 2000);
   }
 
   askLocation = () => {
@@ -67,48 +68,62 @@ class Homepage extends Component {
   };
 
   render() {
-    const { loading, feed } = this.state;
+    const { loading, feed, wall } = this.state;
     const { classes } = this.props;
     return (
-      <div style={{ textAlign: "center" }}>
-        {loading ? (
-          <CircularProgress
-            style={{ marginTop: "25vh", color: "#2979ff" }}
-            className={classes.progress}
-            size={150}
+      <div>
+        {wall === false && (
+          <img
+            src={splash}
+            style={{
+              height: "100vh",
+              position: "absolute",
+              zIndex: 2000
+            }}
           />
-        ) : (
-          <div>
-            <div className="sort-btn">
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={this.state.sortByDistance}
-                    onChange={this.handleChange("sortByDistance")}
-                    value="sortByDistance"
-                    color="primary"
-                  />
-                }
-                label="Distance"
-              />
-            </div>
-            <Grid container>
-              {feed.sort((a, b) => b.distance - a.distance).map((d, i) => {
-                return (
-                  <Grid key={i} item xs={12} sm={4}>
-                    <Info
-                      name={d.name}
-                      date={new Date(d.date).toDateString().slice(4)}
-                      email={d.email}
-                      contact={d.contact}
-                      address={d.address}
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </div>
         )}
+        <div style={{ textAlign: "center" }}>
+          {loading ? (
+            <CircularProgress
+              style={{ marginTop: "25vh", color: "#2979ff" }}
+              className={classes.progress}
+              size={150}
+            />
+          ) : (
+            <div>
+              <div className="sort-btn">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={this.state.sortByDistance}
+                      onChange={this.handleChange("sortByDistance")}
+                      value="sortByDistance"
+                      color="primary"
+                    />
+                  }
+                  label="Nearest First"
+                />
+              </div>
+              <Grid container>
+                {feed.sort((a, b) => a.distance - b.distance).map((d, i) => {
+                  return (
+                    <Grid key={i} item xs={12} sm={4}>
+                      <Info
+                        name={d.name}
+                        date={new Date(d.date).toDateString().slice(4)}
+                        email={d.email}
+                        contact={d.contact}
+                        address={d.address}
+                        foodType={d.foodType}
+                        foodQuantity={d.foodQuantity}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </div>
+          )}
+        </div>
       </div>
     );
   }

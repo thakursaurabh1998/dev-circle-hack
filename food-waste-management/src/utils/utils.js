@@ -1,8 +1,7 @@
 const geocodeUrl =
   "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBpWKMJY5M-JCteqVJKcfYBjePIiauQr8I&latlng=";
 
-// const backendAPI = "http://192.168.100.5:8000/";
-const backendAPI = "http://localhost:8000/";
+const backendAPI = "https://food-server.herokuapp.com/";
 
 const headers = {
   Accept: "application/json"

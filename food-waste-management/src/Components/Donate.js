@@ -70,6 +70,7 @@ class Donate extends Component {
   askLocation = () => {
     if ("geolocation" in navigator) {
       const self = this;
+      console.log("inside ask location");
       navigator.geolocation.getCurrentPosition(function(position) {
         callsAPI
           .geocode(position.coords.latitude, position.coords.longitude)
@@ -100,14 +101,16 @@ class Donate extends Component {
     const name = e.target[0].value;
     const contact = e.target[1].value;
     const email = e.target[2].value;
-    const address = e.target[3].value;
+    const foodType = e.target[3].value;
+    const foodQuantity = e.target[4].value;
+    const address = e.target[5].value;
     const location = {
       latitude: this.state.latitude,
       longitude: this.state.longitude
     };
     const date = new Date().getTime();
     callsAPI
-      .postDonors({ name, contact, email, address, location, date })
+      .postDonors({ name, contact, email, address, location, date, foodType, foodQuantity })
       .then(result => {
         console.log(result);
         this.handleClickOpen();
@@ -190,6 +193,27 @@ class Donate extends Component {
                         defaultValue={this.props.email}
                         className={classes.textField}
                         onChange={this.handleChange("email")}
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={false} sm={4} />
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        id="foodType"
+                        label="Food Type"
+                        className={classes.textField}
+                        onChange={this.handleChange("foodType")}
+                        helperText="Example: Burger, Sandwiches, Pasta etc"
+                        margin="normal"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        id="foodQuantity"
+                        label="Food Quantity"
+                        type="number"
+                        className={classes.textField}
+                        onChange={this.handleChange("foodQuantity")}
                         margin="normal"
                       />
                     </Grid>
